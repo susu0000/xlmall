@@ -1,0 +1,148 @@
+{include file="admin_pageheader"}
+
+<div class="wrapper">
+    <div class="title">分成比例设置</div>
+    <div class="content_tips">
+        <div class="explanation" id="explanation">
+            <div class="ex_tit"><i class="sc_icon"></i><h4>操作提示</h4><span id="explanationZoom" title="收起提示"></span></div>
+            <ul>
+                <li>微分销默认开启，如需关闭请点击禁用按钮，再次使用点启用即可 </li>
+                <li>微分销分成总比例默认是用的具体某个商品的商品信息里面设置的比例。</li>
+                <li>微分销默认三级，如需改变每级的比例请在下方修改，三级百分比相加需小于等于100%。</li>
+                <li>分销的订单在用户付款后必须大于等于7天才可以进行佣金分成。具体可操作的时间可在下方修改。</li>
+            </ul>
+        </div>
+        <div class="flexilist">
+            <div class="main-info">
+                    <div class="switch_info">
+                        <div class="item">
+                            <div class="label-t">是否开启微分销：</div>
+                            <div class="label_value">
+                                <div class="checkbox_items">
+                                    <div class="checkbox_item">
+                                        <input type="radio" name="data[status]" class="ui-radio event_zhuangtai" id="value_118_0" value="1" {if $drp_a_config.on == 1}checked{/if}>
+                                        <label for="value_118_0" class="ui-radio-label {if $drp_a_config.on == 1}active{/if}">启用</label>
+                                    </div>
+                                    <div class="checkbox_item">
+                                        <input type="radio" name="data[status]" class="ui-radio event_zhuangtai" id="value_118_1" value="0" {if $drp_a_config.on == 0}checked{/if}>
+                                        <label for="value_118_1" class="ui-radio-label {if $drp_a_config.on == 0}active{/if}">禁用</label>
+                                    </div>
+                                </div>
+                                <div class="notic">{$config.warning}</div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="label-t">佣金可提现时间（天）：</div>
+                            <div class="label_value">
+                                <input type="text" placeholder="数值大于等于7" class="text" id="drp_day" value="{$drp_a_config.config.day}" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" style="width:10rem;" >
+                                <input type="button" value="保存" class="button" onclick="drpedit_day('day');"  />
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="label-t" style="width:19.8%">&nbsp;</div>
+                            <div class="label_value">
+                                <table cellspacing='1' cellpadding='1' style=" width:98%;">
+                                    <tr>
+                                        <th style="padding:6px;" name="levels" ReadOnly="true" width="15%" style="padding:20px;" class="text-center">分销级别</th>
+                                        <th style="padding:6px;" name="level_money" Type="TextBox" style="padding:20px;">佣金分成百分比</th>
+                                    </tr>
+                                    {foreach $drp_a_config.item as $key => $dac}
+                                    <tr align="left">
+                                        <td style="padding:6px;" class="text-center">{$dac.order}</td>
+                                        <td style="padding:6px;">
+                                            <input type="text" id="levels_{$dac.order}" class="text" style="width:10rem;" value="{$dac.level_money}">
+                                            <input type="button" value="保存" class="button"  onclick="drpedit('level_money',{$dac.order});"  />
+                                        </td>
+                                    </tr>
+                                    {/foreach}
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    function drpedit(type,id){
+        var level_val = $('#levels_'+id).val();
+        var patt = new RegExp(/^(100|[1-9]?\d(\.\d\d?)?)%$/);  // 0% 到 100% 可有小数
+        var result = patt.test(level_val);
+        if(result){
+            if(id){
+                var edit_key = (id-1);
+            }else{
+                var edit_key = -1;
+            }
+            $.post("{url('ajaxeditdrp')}", {type:type,val:level_val,edit_key: edit_key}, function(result){
+                $('#levels_'+id).val(result.val);
+                layer.msg(result.msg);
+            }, 'json');
+        }else{
+            $('#levels_'+id).val();
+            layer.msg('请输入0 - 100的数字');
+            return false;
+        }
+    }
+    //修改佣金可提现时间
+    function drpedit_day(type){
+        var day_val = $('#drp_day').val();
+        if (day_val < 7) {
+            layer.msg('请输入大于等于7的数字');
+            return false;
+        } else {
+            $.post("{url('ajaxeditdrp')}", {type: type, val: day_val}, function (result) {
+                $('#drp_day').val(result.val);
+                layer.msg(result.msg);
+            }, 'json');
+        }
+    }
+    // 启用或禁用配置
+    $(".event_zhuangtai").click(function(){
+        $("input[type=radio]:checked").each(function(){
+            var select = $(this).val();
+            var type = 'on';
+            $.post("{url('ajaxeditdrp')}", {type: type, val: select}, function (result) {
+                if(result.msg){
+                    (select == 1) ? layer.msg('启用成功') : layer.msg('禁用成功');
+                }
+            }, 'json');
+        });
+    });
+
+    // function drpedit_on(type,t){
+    //     var val = $(t).children('input').val();
+    //     alert(val);
+    //     $.post("{url('ajaxeditdrp')}", {type: type, val: val}, function (result) {
+    //         alert(result.msg);
+    //     }, 'json');
+    // }
+</script>
+<script>
+    $("#explanationZoom").on("click",function(){
+        var explanation = $(this).parents(".explanation");
+        var width = $(".content_tips").width();
+        if($(this).hasClass("shopUp")){
+            $(this).removeClass("shopUp");
+            $(this).attr("title","收起提示");
+            explanation.find(".ex_tit").css("margin-bottom",10);
+            explanation.animate({
+                width:width-20
+            },300,function(){
+                $(".explanation").find("ul").show();
+            });
+        }else{
+            $(this).addClass("shopUp");
+            $(this).attr("title","提示相关设置操作时应注意的要点");
+            explanation.find(".ex_tit").css("margin-bottom",0);
+            explanation.animate({
+                width:"118"
+            },300);
+            explanation.find("ul").hide();
+        }
+    });
+</script>
+
+{include file="admin/footer"}

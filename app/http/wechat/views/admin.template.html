@@ -1,0 +1,45 @@
+{include file="pageheader"}
+<div class="wrapper">
+    <div class="title">{$lang['wechat_menu']} - {$lang['templates']}</div>
+	<div class="content_tips">
+        <div class="explanation" id="explanation">
+        	<div class="ex_tit"><i class="sc_icon"></i><h4>操作提示</h4><span id="explanationZoom" title="收起提示"></span></div>
+            <ul>
+            	<li>消息提醒，即微信模板消息，需要先登录微信公众号平台右侧菜单，添加插件，申请开通模板消息。（不用手动添加，手动添加的无效）</li>
+                <li>申请时选择填写所在行业： IT科技/互联网|电子商务，如果有其他行业则选填：IT科技/电子技术。</li>
+            </ul>
+        </div>
+        <div class="flexilist">
+            <div class="common-content">
+                <div class="list-div">
+                <table cellspacing="0" cellpadding="0" border="0">
+                    <tr>
+                        <th class="text-center">{$lang['template_title']}</th>
+                        <th class="text-center">{$lang['template_code']}</th>
+                        <th class="text-center">{$lang['wechat_add_time']}</th>
+                        <th class="text-center">{$lang['handler']}</th>
+                    </tr>
+                    <from method="get" action="{url(is_switch)}" >
+                    {foreach $list as $key=>$val}
+                    <tr>
+                        <td  class="text-center">{$val['title']}</td>
+                        <td  class="text-center">{$val['code']}</td>
+                        <td  class="text-center">{$val['add_time']}</td>
+                        <td  class="text-center">
+                            <div class="btn-group">
+                                <a href="{url('switch', array('id'=>$val['id'], 'status'=>1))}" class="btn btn-primary borderno {if $val['status']}active{/if}">{$lang['enabled']}</a>
+                                <a href="{url('switch', array('id'=>$val['id'], 'status'=>0))}" class="btn btn-primary borderno {if empty($val['status'])}active{/if}">{$lang['disabled']}</a>
+                                <a href="{url('edit_template', array('id'=>$val['id']))}" class="btn btn-primary borderno fancybox fancybox.iframe pull-right">{$lang['wechat_editor']}</a>
+                            </div>
+                        </td>
+                    </tr>
+                    {/foreach}
+                    </form>
+                </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{include file="pagefooter_copyright"}
+{include file="pagefooter"}

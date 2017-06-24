@@ -1,0 +1,87 @@
+ <div class="filter-top filter-top-index" id="scrollUp">
+                <i class="iconfont icon-jiantou"></i>
+                <span>顶部</span>
+</div>
+<ul id="navs" data-open="+" data-close="+">
+	<li><a href="{url('user/index/index')}"><i class="iconfont icon-geren"></i></a> </li>
+	<li><a href="{url('search/index/index')}"><i class="iconfont icon-sousuo"></i></a> </li>
+	<li><a href="{url('category/index/index')}"><i class="iconfont icon-caidan"></i></a> </li>
+	<li><a href="{url('cart/index/index')}"><i class="iconfont icon-gouwuche"></i></a> </li>
+	<li><a href="{url('/')}"><i class="iconfont icon-home"></i></a> </li>
+</ul>
+
+<script>
+   (function(){
+	var ul=$("#navs"),li=$("#navs li"),i=li.length,n=i-1,r=120;
+	ul.click(function(){
+		$(this).toggleClass('active');
+		if($(this).hasClass('active')){
+			for(var a=0;a<i;a++){
+			    var x = r*Math.cos(90/n*a*(Math.PI/180));
+				var y = -r*Math.sin(90/n*a*(Math.PI/180));
+
+				li.eq(a).css({
+					'transition-delay':""+(0.5*a)+"ms",
+					'-webkit-transition-delay':""+(0.5*a)+"ms",
+					'-o-transition-delay':""+(0.5*a)+"ms",
+				/*
+   				    'transform':"translate("+ x +"px,"+ y +"px)",
+					'-webkit-transform':"translate("+x+"px,"+ y +"px)",
+					'-o-transform':"translate("+ x +"px,"+ y +"px)",
+					'-ms-transform':"translate("+ x +"px,"+ y +"px)",
+				*/
+					'margin-left': x + 'px',
+					'margin-top': y + 'px',
+				});
+			}
+		}else{
+			li.removeAttr('style');
+		}
+	});
+})($);
+</script>
+
+<nav class="commom-nav dis-box ts-5">
+        <div class="left-icon">
+            <div class="nav-icon"><i class="iconfont icon-jiantou"></i></div>
+            <div class="filter-top filter-top-index" id="scrollUp2">
+                <i class="iconfont icon-jiantou"></i>
+                <span>顶部</span>
+            </div>
+        </div>
+        <div class="right-cont box-flex">
+            <ul class="nav-cont">
+                <li>
+                      <a href="{url('/')}">
+                        <i class="iconfont icon-home"></i>
+                        <p>首页</p>
+                      </a>  
+                </li>
+                <li>
+                    <a href="{url('search/index/index')}">
+                         <i class="iconfont icon-sousuo"></i>
+                         <p>搜索</p>
+                    </a>  
+                </li>
+                <li>
+                     <a href="{url('category/index/index')}">
+                         <i class="iconfont icon-caidan"></i>
+                         <p>分类</p>
+                     </a> 
+                </li>
+                <li>
+                     <a href="{url('cart/index/index')}">
+                         <i class="iconfont icon-gouwuche"></i>
+                         <p>购物车</p>
+                      </a> 
+                </li>
+                <li>
+                    <a href="{url('user/index/index')}">
+                         <i class="iconfont icon-geren"></i>
+                         <p>个人中心</p>
+                    </a> 
+                </li>
+
+				
+				
+				

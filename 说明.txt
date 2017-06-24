@@ -1,0 +1,11 @@
+更新说明：
+
+解决部分无法启用 REWRITE 环境下的问题，默认启用常规路由。
+
+操作步骤：
+1、覆盖 mobile 目录下的文件
+2、删除 mobile/storage/migration.lock 文件
+3、更新后台后台缓存（建议手动移除缓存）
+
+手动移除缓存流程：
+1、进入 mobile/storage/framework 目录，移除目录下 除 sessions 目录以为的其他所有文件

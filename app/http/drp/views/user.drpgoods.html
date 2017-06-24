@@ -1,0 +1,72 @@
+{include file="page_header"}
+<div class="con">
+		<section class="drp-shop-box b-color-f">
+			<script id="j-product" type="text/html">
+				 <%if totalPage > 0%>
+			<ul class="drp-shop-list">
+				 <%each list as goods%>
+				<li class="dis-box" id="li<%goods.goods_id%>">
+                    <a href="<%goods.url%>">
+					<div class="left-img"><img src="<%goods.goods_thumb%>"/></div>
+                    </a>
+					<div class="box-flex">
+                        <a href="<%goods.url%>">
+						<h4 class="f-06 onelist-hidden"><%goods.goods_name%></h4>
+                        </a>
+                        <h4 class="f-06 onelist-hidden t-first"><%goods.shop_price%></h4>
+                        <%if type > 0%>
+                        <span id="drp<%goods.goods_id%>" onclick="change_drp(<%goods.goods_id%>)" class=" <%if goods.is_drp == 1%>hs-bg<%else%>red-bg<%/if%>  color-whie f-03 fr">取消{$custom}</span>
+                        <%/if%>
+					</div>
+
+				</li>
+				<%/each%>
+			</ul>
+			<%else%>
+			<div class="no-div-message">
+				<i class="iconfont icon-biaoqingleiben"></i>
+				<p>亲，此处没有内容～！</p>
+			</div>
+			<%/if%>
+			</script>
+
+		</section>
+	<div class="goods-scoll-bg"></div>
+    <!--快捷导航-->
+   {include file="no_search_nav"}
+                <li>
+                     <a href="{url('drp/user/index')}">
+                         <i class="iconfont icon-fenxiao"></i>
+                         <p>{$custom}中心</p>
+                     </a>
+                </li>
+    {include file="float_nav_footer"}
+
+</div>
+		<script>
+			var url="{url('drpgoods')}";
+ 			$('.drp-shop-box').infinite({url: url, template: 'j-product'});
+			function change_drp(id) {
+				$.ajax({
+					type: "post",
+					url: "{url('drp/user/ajaxeditcat')}",
+					data: {cat_id: id},
+					dataType: "json",
+					success: function (data) {
+
+						if($("#drp" + id).hasClass("hs-bg")){
+							$("#drp" + id).removeClass("hs-bg");
+							$("#drp" + id).addClass("red-bg");
+							$("#li" + id).remove('');
+						}else{
+							$("#drp" + id).removeClass("red-bg");
+							$("#drp" + id).addClass("hs-bg");
+							$("#li" + id).remove('');
+						}
+
+					}
+				});
+			}
+		</script>
+	</body>
+</html>

@@ -1,0 +1,139 @@
+{include file="seller_pageheader"}
+
+{include file="seller_nave_header"}
+
+<div class="ecsc-layout">
+    <div class="site wrapper">
+        {include file="seller_menu_left"}
+
+        <!-- 编辑菜单 -->
+		<div class="ecsc-layout-right">
+			<div class="main-content" id="mainContent">
+			{include file="seller_nave_header_title"}
+				<div class="wrapper-right of" style="background:#fff">
+					<div class="tabmenu">
+                        <ul class="tab pngFix">
+                            <li role="presentation" class="active"><a href="#home" role="tab" data-toggle="tab">{$lang['menu_edit']}/{$lang['add']}</a></li>
+                        </ul>
+                    </div>
+                    <div class="point-out">
+                        <div class="alert-info"><h4>使用说明：</h4>
+                            <ul>
+                                <li>微信自定义菜单最多可添加3个一级菜单、5个二级菜单。</li>
+                                <li>微信自定义菜单分为关键词click，网址view两种类型。click是响应关键词指令，view则是直接跳转URL地址（填写绝对路径）。</li>
+                                <li>每次修改自定义菜单后，由于微信客户端缓存，需要24小时左右微信客户端才会显示生效。测试时可以尝试重新关注微信公众号，或者清除微信缓存。</li>
+                            </ul>
+                        </div>
+                    </div>
+					<form action="{url('menu_edit')}" method="post" class="form-horizontal" role="form" onSubmit="return false;">
+				    <div class="wrapper-content">
+				    	<div class="account-setting clearfix">
+				    		<ul class="set">
+						        <li>
+						            <h4>{$lang['menu_parent']}:</h4>
+					                <select name="data[pid]" class="input-sm select">
+						              	<option value="0">{$lang['menu_select']}</option>
+						              	{foreach $top_menu as $m}
+						              		<option value="{$m['id']}" {if $info['pid'] == $m['id']}selected{/if}>{$m['name']}</option>
+						              	{/foreach}
+					                </select>
+						        </li>
+						        <li>
+						            <h4>{$lang['menu_name']}:</h4>
+						            <input type="text" name="data[name]" class="text" value="{$info['name']}" />
+						        </li>
+						        <li>
+						            <h4>{$lang['menu_type']}:</h4>
+						            <div class="label_value col-md-10">
+						          	    <div class="checkbox_items">
+				                            <div class="checkbox_item">
+							                    <input type="radio" name="data[type]" class="ui-radio evnet_shop_closed clicktype" id="value_116_0" value="click" {if $info['type'] == 'click'}checked{/if} >
+							                    <label for="value_116_0" class="ui-radio-label {if $info['type'] == 'click'}active{/if}">{$lang['menu_click']}</label>
+							                </div>
+							                <div class="checkbox_item">
+							                    <input type="radio" name="data[type]" class="ui-radio evnet_shop_closed clicktype" id="value_116_1" value="view" {if $info['type'] == 'view'}checked{/if}>
+							                    <label for="value_116_1" class="ui-radio-label {if $info['type'] == 'view'}active{/if}">{$lang['menu_view']}</label>
+							                </div>
+			                            </div>
+						            </div>
+						        </li>
+						        <li>
+						        <div id="click" class="item {if $info['type'] == 'view'}hidden{/if}" >
+						            <h4>{$lang['menu_keyword']}:</h4>
+						            <input type="text" name="data[key]" class="text" value="{$info['key']}" />
+						        </div>
+						        <div id="view" class="item  {if $info['type'] == 'click'}hidden{/if}" >
+						            <h4>{$lang['menu_url']}:</h4>
+						            <input type="text" name="data[url]" class="text" value="{$info['url']}" />
+						        </div>
+						        </li>
+						        <li>
+						            <h4>{$lang['menu_show']}:</h4>
+						            <div class="label_value col-md-10">
+						          	    <div class="checkbox_items">
+				                            <div class="checkbox_item">
+							                    <input type="radio" name="data[status]" class="ui-radio evnet_show" id="value_117_0" value="1" {if $info['status'] == 1}checked{/if}>
+							                    <label for="value_117_0" class="ui-radio-label {if $info['status'] == 1}active{/if}">{$lang['yes']}</label>
+							                </div>
+							                <div class="checkbox_item">
+							                    <input type="radio" name="data[status]" class="ui-radio evnet_show" id="value_117_1" value="0" {if $info['status'] == 0}checked{/if}>
+							                    <label for="value_117_1" class="ui-radio-label {if $info['status'] == 0}active{/if}">{$lang['no']}</label>
+							                </div>
+			                            </div>
+						            </div>
+						        </li>
+						        <li>
+						            <h4>{$lang['sort_order']}:</h4>
+						            <input type="text" name="data[sort]" class="text" value="{$info['sort']}" />
+						        </li>
+						        <li>
+						            <h4>&nbsp;</h4>
+						            <input type="hidden" name="id" value="{$info['id']}" />
+									<input type="submit" value="{$lang['button_submit']}" class="button fn" />
+						            <input type="reset" value="{$lang['button_reset']}" class="button button_reset fn" />
+						        </li>
+						        </div>
+					        </ul>
+					    </div>
+				    </form>
+				</div>
+			</div>
+		</div>
+
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function(){
+	$(".clicktype").click(function(){
+		// var val = $(this).find("input[type=radio]").val();
+		var val = $(this).val();
+
+		if('click' == val && $("#click").hasClass("hidden")){
+			$("#view").hide().addClass("hidden");
+			$("#click").show().removeClass("hidden");
+		}
+		else if('view' == val && $("#view").hasClass("hidden")){
+			$("#click").hide().addClass("hidden");
+			$("#view").show().removeClass("hidden");
+		}
+	});
+	$(".form-horizontal").submit(function(){
+	    var ajax_data = $(this).serialize();
+	    $.post("{url('menu_edit')}", ajax_data, function(data){
+	        if(data.status > 0){
+	        	layer.msg(data.msg);
+	            window.parent.location = "{url('menu_list')}";
+			}
+	        else{
+	            layer.msg(data.msg);
+	            return false;
+		    }
+	    }, 'json');
+	});
+})
+</script>
+{include file="seller_pagefooter_copyright"}
+{include file="seller_pagefooter"}
+</body>
+</html>

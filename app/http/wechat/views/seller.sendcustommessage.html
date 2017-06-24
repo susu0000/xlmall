@@ -1,0 +1,60 @@
+{include file="pageheader"}
+<div class="panel panel-default wechat-message" style="margin:0;">
+    <div class="panel-heading header-bg" style="border-bottom:none;">
+        <img src="{$info['headimgurl']}">
+        <span>{$info['nickname']}</span>
+    </div>
+    <div class="wechat-show">
+        {foreach $list as $val}
+        {if $val['wechat_admin_id'] == 1}
+        <li class="talk-right">
+        {else}
+        <li class="talk-left">
+        {/if}
+            <div class="user">
+              {if $val['wechat_admin_id'] == 0}<img src="{$val['headimgurl']}">{else}<img src="{$val['wechat_headimgurl']}">{/if}
+              <div class="cite">{$val['nickname']}<i>{$val['send_time']}</i></cite>
+            </div>
+            <div class="speak-text {if $val['wechat_admin_id'] == 0}green{/if} ">{$val['msg']}</div>
+        </li>
+        {/foreach}
+    </div>
+    <div class="wechat-middle header-bg"><span class="help-block">{$lang['sub_help1']}</span> <!-- <span ><a class="history-mass" href="{url('custom_message_list', array('uid'=>$info['uid']))}" title="{$lang['custom_message_list']}">历史消息</a></span> --></div>
+    <div class="panel-body">
+        <form action="{url('send_custom_message')}" method="post" class="form-horizontal" role="form" onSubmit="return false;">
+        <table id="general-table" class="table table-hover ectouch-table">
+            <textarea name="data[msg]" placeholder="{$lang['message_content']}" class="wechat-content" ></textarea>
+            <!--  <tr>
+              <td width="200">{$lang['sub_openid']}:</td>
+              <td><div class="col-md-6">{$info['openid']}</div></td>
+            </tr> -->
+            <tr>
+                <td>
+                <div class="col-md-4 info_btn pull-right">
+                      <input type="hidden" name="data[uid]" value="{$info['uid']}" />
+                      <input type="hidden" name="openid" value="{$info['openid']}" />
+                      <input type="submit" value="{$lang['button_send']}" class="btn button" />
+                    	<input type="reset" value="{$lang['button_reset']}" class="button button_reset fn" />
+                </div>
+                </td>
+            </tr>
+            </table>
+    	</form>
+    </div>
+</div>
+<script type="text/javascript">
+$(function(){
+	$(".form-horizontal").submit(function(){
+		var ajax_data = $(".form-horizontal").serialize();
+		$.post("{url('send_custom_message')}", ajax_data, function(data){
+		    if(data.status > 0){
+		    	window.parent.location.reload();
+			}
+		    else{
+			    layer.msg(data.msg);
+			    return false;
+			}
+		}, 'json');
+	});
+})
+</script>

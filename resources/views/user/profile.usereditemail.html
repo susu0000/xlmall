@@ -1,0 +1,49 @@
+{include file="page_header"}
+{include file="title"}
+	<body class="b-color-f">
+		
+		<div class="con">
+			<!--根据邮箱找回-->
+			<section class="user-center j-f-email margin-lr">
+				<form action="{url('user/profile/user_edit_email')}" method="post">
+					<div class="text-all dis-box j-text-all">
+						<div class="input-text box-flex" name="emaildiv">
+							<input class="j-input-text" id="focus" type="text" name="email" placeholder="{if $emails}{$emails}{else}请输入邮箱{/if}" />
+							<i class="iconfont icon-guanbi1 is-null j-is-null"></i>
+						</div>
+					</div>
+					<button type="submit" class="btn-submit br-5 min-btn">确定修改</button>
+				</form>
+			</section>
+		</div>
+	</body>
+    <!--快捷导航-->
+    {include file="float_nav"} 
+                <li>
+                    <a href="javascript:history.go(-1);">
+                         <i class="iconfont icon-qudiandianpumingpianicon"></i>
+                         <p>个人资料</p>
+                    </a> 
+                </li>               
+    {include file="float_nav_footer"}
+	<script>
+	$("#focus").focus();
+	$(".btn-submit").click(function(){
+		 var email = $("#focus");
+		 var reg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
+		if(email.val() == ""){
+			d_messages('请输入用户邮箱',2);
+			 $("div[name=emaildiv]").addClass("active");
+			return false;
+		}
+		if(!reg.test(email.val())){
+			 d_messages('请输入有效的邮箱',2);
+			 $("div[name=emaildiv]").addClass("active");
+			 return false;
+	     }
+			
+		
+	})
+	</script>
+
+</html>

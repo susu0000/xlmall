@@ -1,0 +1,150 @@
+{include file="admin_pageheader"}
+
+<!--同步pc时间插件修改-->
+<link href="../js/calendar/calendar.min.css" rel="stylesheet" type="text/css" />
+<script src="../js/calendar/calendar.min.js"></script><!--时间插件js-->
+<style>
+ul, li {overflow: hidden;}
+.dates_box_top {height: 32px;}
+.dates_bottom {height: auto;}
+.dates_hms {width: auto;}
+.dates_btn {width: auto;}
+.dates_mm_list span {width: auto;}
+
+</style>
+
+<div class="wrapper">
+    <div class="title">分销商下线</div>
+        <div class="content_tips">
+            <div class="explanation" id="explanation">
+                <div class="ex_tit"><i class="sc_icon"></i><h4>操作提示</h4><span id="explanationZoom" title="收起提示"></span></div>
+                <ul>
+                    <li>显示分销商以及下线会员列表。</li>
+                    <li>分销商下线列表可以根据会员名称进行查询。</li>
+                </ul>
+            </div>
+            <div class="flexilist">
+                <div class="common-head">
+                    <div class="fl">
+                       <!--  <form action="{url('export_shop')}" method="post">
+                        <div class="label_value">
+                            <div class="text_time" id="text_time1" style="float:left;">
+                                <input type="text" name="starttime"  class="text" value="{date('Y-m-d H:i', mktime(0,0,0,date('m'), date('d')-7, date('Y')))}" id="promote_start_date" class="text mr0" readonly>
+                            </div>
+
+                            <div class="text_time" id="text_time2"  style="float:left;">
+                                <input type="text" name="endtime"  class="text" value="{date('Y-m-d H:i')}" id="promote_end_date" class="text" readonly >
+                            </div>
+                                <input type="submit" name="export" value="导出" class="button" />
+                        </div>
+                        </form> -->
+                    </div>
+                    <div class="search">
+                        <form action="{url('afflist')}" method="post">
+                            <div class="input">
+                                <input type="text" placeholder="会员名称" name="keyword"  class="text nofocus" autocomplete="off">
+                                <input type="hidden" name="user_id" value="{$user_id}">
+                                <input type="submit" name="export" value="" class="btn"  style="font-style:normal">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="common-content">
+                    <div class="list-div" id="listDiv">
+                        <table cellpadding="0" cellspacing="0" border="0">
+                            <thead>
+                                <tr>
+                                  <th><div class="tDiv">编号</div></th>
+                                  <th><div class="tDiv">用户名</div></th>
+                                  <th><div class="tDiv">邮件地址</div></th>
+                                  <th><div class="tDiv">可用资金</div></th>
+                                  <th><div class="tDiv">等级积分</div></th>
+                                  <th><div class="tDiv">消费积分</div></th>
+                                  <th><div class="tDiv">注册日期</div></th>
+
+                                </tr>
+                            </thead>
+                            {if $list}
+                            {foreach $list as $key=>$val}
+                            <tr>
+                                <td><div class="tDiv">{$val.user_id}</div></td>
+                                <td><div class="tDiv">{$val.user_name}</div></td>
+                                <td><div class="tDiv">{$val.email}</div></td>
+                                <td><div class="tDiv">{$val.user_money}</div></td>
+                                <td><div class="tDiv">{$val.rank_points}</div></td>
+                                <td><div class="tDiv">{$val.pay_points}</div></td>
+                                <td><div class="tDiv">{$val.reg_time}</div></td>
+
+                            </tr>
+                            {/foreach}
+                            {else}
+                            <tbody>
+                            <tr><td class="no-records" colspan="9">没有找到任何记录</td></tr>
+                            </tbody>
+                            {/if}
+                             <tfoot>
+                                <tr>
+                                    <td colspan="12">
+                                        <div class="list-page">
+                                            {include file="admin_pageview"}
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+//日历显示
+/*$("#starttime, #endtime").datetimepicker({
+    lang:'ch',
+    format:'Y-m-d H:i',
+    timepicker:false
+});*/
+</script>
+<script>
+    $("#explanationZoom").on("click",function(){
+        var explanation = $(this).parents(".explanation");
+        var width = $(".content_tips").width();
+        if($(this).hasClass("shopUp")){
+            $(this).removeClass("shopUp");
+            $(this).attr("title","收起提示");
+            explanation.find(".ex_tit").css("margin-bottom",10);
+            explanation.animate({
+                width:width
+            },300,function(){
+                $(".explanation").find("ul").show();
+            });
+        }else{
+            $(this).addClass("shopUp");
+            $(this).attr("title","提示相关设置操作时应注意的要点");
+            explanation.find(".ex_tit").css("margin-bottom",0);
+            explanation.animate({
+                width:"118"
+            },300);
+            explanation.find("ul").hide();
+        }
+    });
+
+    var opts1 = {
+            'targetId':'promote_start_date',
+            'triggerId':['promote_start_date'],
+            'alignId':'text_time1',
+            'format':'-',
+            'hms':'off'
+        },opts2 = {
+            'targetId':'promote_end_date',
+            'triggerId':['promote_end_date'],
+            'alignId':'text_time2',
+            'format':'-',
+            'hms':'off'
+        }
+
+        xvDate(opts1);
+        xvDate(opts2);
+</script>
+{include file="admin/footer"}

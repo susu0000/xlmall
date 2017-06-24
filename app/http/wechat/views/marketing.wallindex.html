@@ -1,0 +1,74 @@
+{include file="pageheader"}
+<div class="wrapper">
+	<div class="title">{$lang['wechat_menu']} - 微信墙</div>
+	<div class="content_tips">
+	    <div class="explanation" id="explanation">
+            <div class="ex_tit"><i class="sc_icon"></i><h4>操作提示</h4><span id="explanationZoom" title="收起提示"></span></div>
+            <ul>
+                <li>1，数据：主要作用是查看并审核用户消息，参与人员，获奖名单</li>
+                <li>2，点击上墙地址，获得微信墙二维码地址，用微信扫描即可进入参与活动。</li>
+                <li>3，大屏幕：主要是用来展示在幻灯片大屏幕上，显示参与用户，用户留言，进行抽奖。</li>
+            </ul>
+        </div>
+		<div class="flexilist of">
+			<div class="common-head">
+                <div class="fl">
+                	<a href="{url('wall_edit')}" ><div class="fbutton"><div class="add " title="创建活动"><span><i class="fa fa-plus"></i>创建活动</span></div></div></a>
+                </div>
+            </div>
+            <div class="common-content">
+            	<div class="list-div">
+    				<table class="table-hover table-striped">
+                    <tr class="text-center">
+                        <th class="text-center">活动ID</th>
+                        <th class="text-center">活动名称</th>
+                        <th class="text-center">关键词</th>
+                        <th class="text-center">活动时间</th>
+                        <th class="text-center">上墙信息</th>
+                        <th class="text-center">参与人数</th>
+                        <th class="text-center">状态</th>
+                        <th class="text-center">操作</th>
+                    </tr>
+                    {foreach $list as $l}
+                    <tr class="text-center wall-list">
+                        <td>{$l['id']}</td>
+                        <td>{$l['name']}</td>
+                        <td>{$l['command']}</td>
+                        <td>{$l['starttime']} ~ {$l['endtime']}</td>
+                        <td>{$l['msg_count']}</td>
+                        <td>{$l['user_count']}</td>
+                        <td>{$l['status']}</td>
+                        <td>
+                        <div class="info_btn">
+                            <a class="button btn-primary " href="{url('wall_edit', array('id'=>$l['id']))}">编辑</a>
+                            <a class="button btn-default" href="{url('wall_msg_check', array('id'=>$l['id'], 'status'=>0))}">数据</a>
+                            <a class="button btn-default fancybox fancybox.iframe getqr" href="{url('towall', array('id'=>$l['id']))}">上墙地址</a>
+                            <a class="button btn-default" href="{url('wechat/wall/wall_msg', array('wall_id'=>$l['id']))}" target="_blank">大屏幕</a>
+                            <a class="button btn-primary" href="javascript:if(confirm('确定要删除吗？')){location.href='{url('wall_del', array('id'=>$l['id']))}'}">删除</a>
+                        </div>
+                        </td>
+                    </tr>
+                    {/foreach}
+                    </table>
+		        </div>
+		    </div>
+	    </div>
+	</div>
+</div>
+
+<script type="text/javascript">
+    $(function(){
+        $(".getqr").click(function(){
+            var url = $(this).attr("href");
+            $.get(url, '', function(data){
+                if(data.status <= 0 ){
+                    $.fancybox.close();
+                    alert(data.msg);
+                    return false;
+                }
+            }, 'json');
+        });
+    })
+</script>
+{include file="pagefooter_copyright"}
+{include file="pagefooter"}

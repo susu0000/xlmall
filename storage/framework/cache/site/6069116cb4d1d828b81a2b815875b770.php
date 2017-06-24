@@ -1,0 +1,1 @@
+<?php if (!defined('THINK_PATH')) exit(); $n=1;if(is_array($ads)) foreach($ads as $ad) { ?><div class="swiper-slide"><?php echo $ad; ?></div><?php $n++;}unset($n); ?>

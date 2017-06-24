@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <title>{$page_title}</title>
+    <meta name="description" content="{$description}"/>
+    <meta name="keywords" content="{$keywords}"/>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />
+    <style type="text/css">
+        body {
+            margin: 0;
+            padding: 0;
+            background: #EC5151;
+        }
+        img {
+            width: 100%;
+        }
+    </style>
+    {if $is_wechat}
+    <script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.1.0.js"></script>
+    <script type="text/javascript">
+        // 分享内容
+        var shareContent = {
+            title: '{$page_title}',
+            desc: '{$description}',
+            link: '',
+            imgUrl: '{if $page_img}{$page_img}{else}{elixir("img/wxsdk.png", true)}{/if}'
+        };
+        $(function(){
+            var url = window.location.href;
+            var jsConfig = {
+                debug: false,
+                jsApiList: [
+                    'onMenuShareTimeline',
+                    'onMenuShareAppMessage',
+                    'onMenuShareQQ',
+                    'onMenuShareWeibo',
+                    'onMenuShareQZone'
+                ]
+            };
+            $.post('{url("wechat/jssdk/index")}', {url: url}, function (res) {
+                if(res.status == 200){
+                    jsConfig.appId = res.data.appId;
+                    jsConfig.timestamp = res.data.timestamp;
+                    jsConfig.nonceStr = res.data.nonceStr;
+                    jsConfig.signature = res.data.signature;
+                    // 配置注入
+                    wx.config(jsConfig);
+                    // 事件注入
+                    wx.ready(function () {
+                        wx.onMenuShareTimeline(shareContent);
+                        wx.onMenuShareAppMessage(shareContent);
+                        wx.onMenuShareQQ(shareContent);
+                        wx.onMenuShareWeibo(shareContent);
+                        wx.onMenuShareQZone(shareContent);
+                    });
+                }
+            }, 'json');
+        })
+    </script>
+    {/if}
+</head>
+<body>
+<img src="{$ewm}">
+</body>
+</html>

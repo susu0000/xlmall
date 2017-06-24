@@ -1,0 +1,68 @@
+{include file="seller_pageheader"}
+
+{include file="seller_nave_header"}
+
+<div class="ecsc-layout">
+    <div class="site wrapper">
+		{include file="seller_menu_left"}
+
+        <div class="ecsc-layout-right">
+             <div class="main-content" id="mainContent">
+             {include file="seller_nave_header_title"}
+                <div class="wrapper-right of" style="background:#fff">
+                    <div class="tabmenu">
+                        <ul class="tab pngFix">
+                            <li role="presentation" class="active"><a href="#home" role="tab" data-toggle="tab">{$postion['ur_here']}</a></li>
+                        </ul>
+                    </div>
+                     <div class="point-out">
+                        <div class="alert-info"><h4>使用说明：</h4>
+                        <ul>
+                            <li>功能扩展里的功能，安装配置好之后，可复制相对应的关键词，加入到微信自定义菜单中配合使用。</li>
+                            <li>例如，精品 对应的关键词是 best（也可以使用相应的扩展词），在自定义菜单中添加一个菜单，菜单类型选择 关键词click。</li>
+                        </ul>
+                        </div>
+                    </div>
+                    <div class="wrapper-content">
+                        <ul class="items-box seller-extend">
+                            {foreach $modules as $val}
+                            <li class="item_wrap">
+                                <div class="plugin_item">
+                                    <div class="plugin_icon">
+                                        <i class="icon iconfont icon-{$val['command']} bg-{$val['command']}"></i>
+                                    </div>
+                                    <div class="plugin_status">
+                                        <span class="status_txt">
+                                           <div class="list-div">
+                                                <div class="handle">
+                                                    <div class="tDiv">
+                                                        {if isset($val['enable']) && !empty($val['enable'])}
+                                                        <a href="{url('edit', array('ks'=>$val['command'], 'handler'=>'edit'))}" class="btn_edit fancybox"><i class="fa fa-edit"></i>编辑</a>
+                                                        <a href="javascript:if(confirm('确认卸载吗？')){window.location.href='{url('uninstall', array('ks'=>$val['command']))}'};" class="btn_trash"><i class="fa fa-trash"></i>卸载</a>
+                                                        {else}
+                                                        <a href="{url('edit', array('ks'=>$val['command']))}" class="btn_inst fancybox"><i class="sc_icon sc_icon_inst"></i>安装</a>
+                                                        {/if}
+                                                        {if $val['enable'] == 1 && $val['config']['haslist'] == 1}<a href="{url('winner_list', array('ks'=>$val['command']))}" class="btn_see"><i class="sc_icon sc_icon_see"></i>查看记录</a>{/if}
+                                                    </div>
+                                                </div>
+                                            </div> 
+                                        </span>
+                                    </div>
+                                    <div class="plugin_content"><h3 class="title">{$val['name']}</h3><p class="desc">{$val['command']}</p></div>
+                                </div>
+                            </li>
+                            {/foreach}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+{include file="seller_pagefooter_copyright"}
+{include file="seller_pagefooter"}
+</body>
+</html>

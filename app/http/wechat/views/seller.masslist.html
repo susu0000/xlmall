@@ -1,0 +1,84 @@
+{include file="seller_pageheader"}
+
+{include file="seller_nave_header"}
+
+
+<div class="ecsc-layout">
+    <div class="site wrapper">
+
+        {include file="seller_menu_left"}
+
+        <div class="ecsc-layout-right">
+            <div class="main-content" id="mainContent">
+            {include file="seller_nave_header_title"}
+                <div class="wrapper-right of" style="background:#fff">
+                    <div class="tabmenu">
+                        <ul class="tab pngFix" role="tablist">
+                            <li><a href="{url('mass_message')}">群发消息</a></li>
+                            <li class="active"><a href="{url('mass_list')}">发送记录</a></li>
+                        </ul>
+                    </div>
+                    <div class="tab-content">
+                        <div class="tab-panel active">
+                        	<div class="point-out">
+                                <div class="alert-info"><h4>使用说明：</h4>
+                                    <ul>
+                                        <li>1、只有已经发送成功的消息才能删除</li>
+                                        <li>2、删除消息是将消息的图文详情页失效，已经收到的用户，还是能在其本地看到消息卡片。</li>
+                                        <li>3、如果多次群发发送的是一个图文消息，那么删除其中一次群发，就会删除掉这个图文消息也，导致所有群发都失效</li>
+                                        <li>★ 发送人数，即排除发送时过滤、用户拒收、接收已达到4条的用户数</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="wrapper-content">
+                                <ul class="list-div">
+                                  <table cellspacing="0" cellpadding="0" border="0">
+                                      <tr>
+                                          <th width="35%"><div class="tDiv">标题</div></th>
+                                          <th width="35%"><div class="tDiv">发送状态</div></th>
+                                          <th width="10%"><div class="tDiv">发送时间</div></th>
+                                          <th ><div class="tDiv" style="text-align: center;">{$lang['handler']}</div></th>
+                                      </tr>
+                                  </table>
+                                    {if $list}
+                                    {foreach $list as $val}
+                                    <li class="list-group-item" style="overflow:hidden;" >
+                                        <div class="col-md-1 line-center" style="padding-left:0;"><img src="{$val['artinfo']['file']}" style="width:100%"/></div>
+                                        <div class="col-md-5 admin-top">
+                                            <h4 class="onelist-hidden">[{$val['artinfo']['type']}]{$val['artinfo']['title']}</h4>
+                                            <p class="text-muted twolist-hidden">{sub_str($val['artinfo']['content'], 60)}</p>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <p>{$val['status']}</p>
+                                            <p>发送人数：{$val['totalcount']}人</p>
+                                            <p>成功人数：{$val['sentcount']}人</p>
+                                            <p>过滤人数：{$val['filtercount']}人</p>
+                                            <p>失败人数：{$val['errorcount']}人</p>
+                                            <ul>
+                                        </div>
+                                        <div class="col-md-3 line-center">发送时间：{date('Y年m月d日', $val['send_time'])}</div>
+                                        <div class="col-md-1 line-center"><a href="javascript:if(confirm('{$lang['confirm_delete']}')){window.location.href='{url('mass_del', array('id'=>$val['id']))}'};" class="btn button">删除</a></div>
+
+                                    </li>
+                                   {/foreach}
+
+                                   {else}
+                                    <li class="no-records" >没有记录</li>
+                                   {/if}
+
+                                </ul>
+                            </div>
+                        </div>
+                        {include file="seller_pageview"}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{include file="seller_pagefooter_copyright"}
+{include file="seller_pagefooter"}
+</body>
+</html>

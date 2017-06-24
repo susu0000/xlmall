@@ -1,0 +1,73 @@
+{include file="seller_pageheader"}
+
+{include file="seller_nave_header"}
+
+<div class="ecsc-layout">
+    <div class="site wrapper">
+        {include file="seller_menu_left"}
+
+        <div class="ecsc-layout-right">
+            <div class="main-content" id="mainContent">
+            {include file="seller_nave_header_title"}
+                <div class="wrapper-right of" style="background:#fff">
+                    <div class="tabmenu">
+                        <ul class="tab pngFix">
+                            <li><a href="{url('article')}">图文消息</a></li>
+                            <li><a href="{url('picture')}">图片</a></li>
+                            <li class="active"><a href="{url('voice')}">语音</a></li>
+                            <li><a href="{url('video')}">视频</a></li>
+                        </ul>
+                    </div>
+                    <div class="tab-content">
+                        <div class="tab-pane active">
+                            <div class="point-out">
+                                <div class="alert-info"><h4>使用说明：</h4>
+                                <ul>
+                                    <li>语音素材大小: 不超过2M, 长度: 不超过60s, 格式: mp3, amr</li>
+                                </ul>
+                                </div>
+                            </div>
+                            <div class="common-head">
+                                <form action="{url('voice')}" method="post" enctype="multipart/form-data" id="voiceForm">
+                                <div class="fl">
+                                    <div class="type-file-box">
+                                        <a href="javascript:;" class="type-file-button" style="margin-right:20px;" onclick="$('input[name=voice]').click();"></a>
+                                        <input type="file" name="voice" style="display: none;" onchange="$('#voiceForm').submit();">
+                                    </div>
+                                </div>
+                                </form>
+                            </div>
+
+                            <div class="wrapper-content" style="overflow:hidden">
+                                <ul>
+                                    {foreach $list as $v}
+                                    <li class="picture-add" style="">
+                                        <div class="picture-add-top">
+                                            <img alt="{$v['file_name']}" src="{elixir('img/voice.png')}" class="img-rounded" style="height:220px" />
+                                            <p class="text-muted" style="word-wrap:break-word;word-break:normal;">{$v['file_name']}</p>
+                                            <p class="text-muted">{$v['size']}</p>
+                                        </div>
+                                        <div class="operate threebtn">
+                                            <a href="{url('download', array('id'=>$v['id']))}" title="下载" class="ectouch-fs18"><span class="glyphicon glyphicon-download-alt"></span></a>
+                                            <a href="{url('media_edit', array('id'=>$v['id']))}" title="编辑" class="ectouch-fs18 fancybox fancybox.iframe"><span class="glyphicon glyphicon-pencil"></span></a>
+                                            <a href="javascript:if(confirm('{$lang['confirm_delete']}')){window.location.href='{url('media_del', array('id'=>$v['id']))}'};" title="删除" class="ectouch-fs18"><span class="glyphicon glyphicon-trash"></span></a>                                    
+                                        </div>
+                                    </li>
+                                    {/foreach}
+                                </ul>
+                            </div>
+                            {include file="seller_pageview"}
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{include file="seller_pagefooter_copyright"}
+{include file="seller_pagefooter"}
+</body>
+</html>

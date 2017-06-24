@@ -1,0 +1,72 @@
+{include file="seller_pageheader"}
+
+{include file="seller_nave_header"}
+
+<div class="ecsc-layout">
+    <div class="site wrapper">
+        {include file="seller_menu_left"}
+
+        <div class="ecsc-layout-right">
+            <div class="main-content" id="mainContent">
+            {include file="seller_nave_header_title"}
+                <div class="wrapper-right of" style="background:#fff">
+                    <div class="tabmenu">
+                        <ul class="tab pngFix" role="tablist">
+                            <li class="active"><a href="{url('mass_message')}">群发消息</a></li>
+                            <li ><a href="{url('mass_list')}">发送记录</a></li>
+                        </ul>
+                    </div>
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="home">
+                            <div class="point-out">
+                                <div class="alert-info"><h4>使用说明：</h4><ul><li>该接口暂时仅提供给已微信认证的服务号</li><li>用户每月只能接收4条群发消息，多于4条的群发将对该用户发送失败。</li><li>群发图文消息的标题上限为64个字节,群发内容字数上限为1200个字符、或600个汉字。</li><li>在返回成功时，意味着群发任务提交成功，并不意味着此时群发已经结束，所以，仍有可能在后续的发送过程中出现异常情况导致用户未收到消息，如消息有时会进行审核、服务器不稳定等。此外，群发任务一般需要较长的时间才能全部发送完毕，请耐心等待。</li></ul></div>
+                            </div>
+                            <div class="wrapper-content">
+                                <form action="{url('mass_message')}" method="post" enctype="multipart/form-data" class="form-horizontal" role="form">
+                                <div class="account-setting" >
+                                    <ul class="set">
+                                        <li>
+                                            <h4>选择标签组</h4>
+                                            <select class="form-control select">
+                                                {foreach $tags as $val}
+                                                <option value="{$val['tag_id']}">{$val['name']}</option>
+                                                {/foreach}
+                                            </select>
+                                            <div class="pull-left explain">
+                                                <p>每次群发前，需要先更新粉丝管理</p>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <h4>选择图文信息</h4>
+                                            <div class="w299 pull-left">
+                                                <a class="btn button fancybox fancybox.iframe" href="{url('auto_reply', array('type'=>'news'))}">选择图文信息</a>
+                                            </div>
+                                            <div class="pull-left explain">
+                                                <p>一个图文消息支持1到10条图文，多于10条会发送失败</p>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <h4>图文信息</h4>
+                                            <div class="col-md-3 content picture-list"></div>
+                                        </li>
+                                        <li>
+                                            <h4>&nbsp;</h4>
+                                            <input type="submit" name="submit" value="{$lang['button_submit']}" class="button">
+                                            <input type="reset" value="{$lang['button_reset']}" class="button button_reset">
+                                        </li>
+                                    </ul>
+                                </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{include file="seller_pagefooter_copyright"}
+{include file="seller_pagefooter"}
+</body>
+</html>

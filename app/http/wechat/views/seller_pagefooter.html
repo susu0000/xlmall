@@ -1,0 +1,54 @@
+<script type="text/javascript">
+$(function(){
+    //导航栏鼠标移上左右弹性滑动
+    huadong();
+})
+
+//导航栏鼠标移上左右弹性滑动
+function huadong(){
+    var navcur = $(".nav-current");
+    var nav = $(".ecsc-nav");
+    var itemW = nav.find(".current").innerWidth(); //默认当前位置宽度
+    var defLeftW = nav.find(".current").position().left;   //默认当前位置Left值
+    //添加默认下划线
+    navcur.css({width:itemW,left:defLeftW});
+    //hover事件
+    nav.find("li[ectype='item']").hover(function(){
+        var index = $(this).index();    //获取滑过元素索引值
+        var leftW = $(this).position().left;    //获取滑过元素Left值
+        var currentW = nav.find("li[ectype='item']").eq(index).innerWidth();   //获取滑过元素Width值
+        $(this).children("ul").show();
+        navcur.stop().animate({
+            left: leftW,
+            width: currentW
+        },300);
+        },function(){
+            $(this).children("ul").hide();
+            navcur.stop().animate({
+            left: defLeftW,
+            width: itemW
+        },300);
+    });
+}
+</script>
+<script type="text/javascript">
+function showImg(id, title){
+    var _content = $('#'+id).html();
+    art.dialog({
+        id: 'showImg',
+        padding: 0,
+        title: title,
+        content: _content,
+        lock: false
+    });
+}
+$(function(){
+    //弹出框
+    $(".fancybox").fancybox({
+        width       : '60%',
+        height      : '60%',
+        closeBtn    : true,
+        title       : ''
+    });
+})
+</script>

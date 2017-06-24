@@ -1,0 +1,87 @@
+    <div class="ecsc-layout-left">
+        <div class="sidebar" id="sidebar">
+            <div class="column-menu">
+                
+                <ul id="seller_center_left_menu" >
+                {foreach $seller_menu as $menu}
+                    {if $menu.action == $menu_select.action}
+                    {foreach $menu.children as $key=>$child}
+                    <li id="quicklink_{$child.action}" {if $menu_select.current == $child.action || $menu_select.current_2 == $child.action } class="current"{/if}><a href="{$child.url}" title="{$child.label}"> {$child.label} </a><div class="arrow"></div></li>
+                    {/foreach}
+                    {/if}
+                {/foreach}
+                </ul>             
+            </div>
+        </div>
+    </div>
+<script type="text/javascript" type="text/javascript">
+$(document).ready(function(){
+    //添加删除快捷操作
+    $('[nctype="btn_add_quicklink"]').on('click', function() {
+        //by wu start
+        var menu_curr = $(this).data('action');
+        var menu_status = $(this).data('status');
+        var menu_left = $("#seller_center_left_menu").find("[data-action="+menu_curr+"]");
+        if(menu_left.length > 0)
+        {
+            menu_left.remove();
+        }
+
+        var menu_count = $('#seller_center_left_menu').find('li').length;
+        if(menu_status ==0 && menu_count>7)
+        {
+            prototype("<i class='alert_error'></i>快捷操作最多添加8个","错误提示");
+            return;
+        }
+        
+        $.ajax({
+            type:'get',
+            url:'index.php',
+            data:'act=change_user_menu&action='+menu_curr+'&status='+menu_status,
+            dataType:'json',
+            success:function(data)
+            {
+                if(data.error == 1)
+                {
+                    $('[nctype="btn_add_quicklink"][data-action='+menu_curr+']').attr('data-status', 1);
+                }
+                if(data.error == 2)
+                {
+                    $('[nctype="btn_add_quicklink"][data-action='+menu_curr+']').attr('data-status', 0);
+                }               
+            }           
+        })      
+        //by wu end 
+    
+        var $quicklink_item = $(this).parent();
+        var items = $(this).attr('data-quicklink-act');
+        if($quicklink_item.hasClass('selected'))
+        {
+            $quicklink_item.removeClass("selected");
+        }
+        else
+        {
+            $quicklink_item.addClass("selected");
+            var $link = $quicklink_item.find('a');
+            var menu_name = $link.text();
+            var menu_link = $link.attr('href');
+            var menu_item='<li id="quicklink_' + items + '" data-action="' + menu_curr + '"><a href="' + menu_link + '">' + menu_name + '</a></li>'
+            $(menu_item).appendTo('#seller_center_left_menu').hide().fadeIn();
+        }
+    })
+});
+
+//添加快捷菜单 by wu
+function addUserMenu(obj, memu)
+{
+    var um = $(obj);
+    if(um.parents().attr('class') == undefined)
+    {
+        alert(um.parents().attr('class'));
+    }
+    if(um.parents().attr('class') == 'selected')
+    {
+        
+    }
+}
+</script>

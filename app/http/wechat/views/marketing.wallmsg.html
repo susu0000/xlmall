@@ -1,0 +1,66 @@
+{include file="pageheader"}
+<div class="wrapper">
+	<div class="title"><a href="{url('wall_index')}" class="s-back">返回</a>{$lang['wechat_menu']} - 微信墙参与会员消息记录</div>
+	<div class="content_tips">
+        <div class="tabs_info">
+            <ul>
+                <li><a href="{url('wall_msg_check', array('id' => $wall_id, 'status'=>0))}">未审核信息</a></li>
+                <li><a href="{url('wall_msg_check', array('id' => $wall_id, 'status'=>'all'))}">全部信息</a></li>
+                <li class="curr" ><a href="{url('wall_user', array('id' => $wall_id))}">参与人员</a></li>
+                <li><a href="{url('wall_prize', array('id' => $wall_id))}">获奖名单</a></li>
+            </ul>
+        </div>
+	    <div class="explanation" id="explanation">
+            <div class="ex_tit"><i class="sc_icon"></i><h4>操作提示</h4><span id="explanationZoom" title="收起提示"></span></div>
+            <ul>
+                <li>微信墙参与会员消息记录</li>
+            </ul>
+        </div>
+		<div class="flexilist of">
+            <div class="common-content">
+                <div class="col-md-12 col-sm-12 col-lg-12" style="padding:0;">
+                    <div class="list-div">
+                    <table class="table-hover table-striped">
+                        <tr class="text-center">
+                            <th class="text-center">内容</th>
+                            <th class="text-center">留言时间</th>
+                            <th class="text-center">审核时间</th>
+                            <th class="text-center">状态</th>
+                            <th class="text-center">操作</th>
+                        </tr>
+                        {if $list}
+                        {foreach $list as $l}
+                        <tr class="text-center wall-list">
+                            <td>{$l['content']}</td>
+                            <td>{$l['addtime']}</td>
+                            <td>{if $l['checktime']}{$l['checktime']}{/if}</td>
+                            <td>{$l['status']}</td>
+                            <td class="info_btn">
+                                <a class="button btn-default" href="javascript:if(confirm('确定要删除吗？')){location.href='{url('wall_data_del', array('wall_id'=>$wall_id, 'user_id'=>$user_id, 'msg_id'=>$l['id']))}'}">删除</a>
+                            </td>
+                        </tr>
+                        {/foreach}
+                        {else}
+                        <tr class="no-records" ><td colspan="6">没有找到任何记录</td></tr>
+                        {/if}
+                    </table>
+                    </div>
+                </div>
+		    </div>
+	    </div>
+        <div class="list-div of">
+            <table cellspacing="0" cellpadding="0" border="0">
+                <tfoot>
+                    <tr>
+                        <td colspan="7">
+                            {include file="pageview"}
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+	</div>
+</div>
+
+{include file="pagefooter_copyright"}
+{include file="pagefooter"}

@@ -1,0 +1,29 @@
+{include file="page_header"}
+		<div class="con">
+			<div class="distribution-new">
+				<ul>
+					{foreach $new_article as $key => $list}
+					<li class="p-r">
+						<h2  class="padding-all">{$list.order}、{$list.title}<span class="t-jiantou t-remark fr"><i class="iconfont icon-more"></i></span></h2>
+						<div class="help-cont">{$list.content}</div>
+					</li>
+					{/foreach}
+				</ul>
+			</div>
+		<!--快捷导航-->
+	    {include file="float_nav"} 
+	    {include file="float_nav_footer"}
+		</div>
+		<script>
+			$(".distribution-new ul li").click(function(){
+				if(!$(this).hasClass("active")){
+					$(this).addClass("active").siblings().removeClass("active");
+				}else{
+					$(this).removeClass("active");
+				}
+				
+			});
+		</script>
+	</body>
+
+</html>

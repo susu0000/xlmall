@@ -1,0 +1,48 @@
+
+<script>
+	$("#explanationZoom").on("click",function(){
+		var explanation = $(this).parents(".explanation");
+		var width = $(".content_tips").width();
+		if($(this).hasClass("shopUp")){
+			$(this).removeClass("shopUp");
+			$(this).attr("title","收起提示");
+			explanation.find(".ex_tit").css("margin-bottom",10);
+			explanation.animate({
+				width:width-0
+			},300,function(){
+				$(".explanation").find("ul").show();
+			});
+		}else{
+			$(this).addClass("shopUp");
+			$(this).attr("title","提示相关设置操作时应注意的要点");
+			explanation.find(".ex_tit").css("margin-bottom",0);
+			explanation.animate({
+				width:"118"
+			},300);
+			explanation.find("ul").hide();
+		}
+	});
+</script>
+<script type="text/javascript">
+function showImg(id, title){
+	var _content = $('#'+id).html();
+	art.dialog({
+		id: 'showImg',
+		padding: 0,
+		title: title,
+		content: _content,
+		lock: false
+	});
+}
+$(function(){
+	//弹出框
+	$(".fancybox").fancybox({
+		width		: '60%',
+		height		: '60%',
+		closeBtn	: true,
+		title       : ''
+	});
+})
+</script>
+</body>
+</html>

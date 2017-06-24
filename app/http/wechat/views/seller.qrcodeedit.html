@@ -1,0 +1,114 @@
+{include file="seller_pageheader"}
+
+{include file="seller_nave_header"}
+
+<div class="ecsc-layout">
+    <div class="site wrapper">
+        {include file="seller_menu_left"}
+
+        <div class="ecsc-layout-right">
+             <div class="main-content" id="mainContent">
+             {include file="seller_nave_header_title"}
+                <div class="wrapper-right of" style="background:#fff">
+                    <div class="tabmenu">
+                        <ul class="tab pngFix">
+                            <li role="presentation" class="active"><a href="#home" role="tab" data-toggle="tab">{$lang['add'].$lang['qrcode']}</a></li>
+                        </ul>
+                    </div>
+                     <div class="point-out">
+                        <div class="alert-info"><h4>使用说明：</h4>
+                            <ul>
+                                <li>功能：填写系统自带关键词（功能扩展）或自动回复里的关键词自定义回复规则关键词</li>
+                                <li>应用场景值：从小大到依次填写非0整型数值</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="wrapper-content">
+                        <form action="{url('qrcode_edit')}" method="post" class="form-horizontal" role="form" onSubmit="return false;">
+                           <div class="account-setting">
+                                <ul class="set">
+                                    <li>
+                                        <h4>{$lang['qrcode_type']}：</h4>
+                                        <dd style="width:auto">
+                                        <select class="form-control select" name="data[type]" style="border-radius:2px">
+                                            <option value="0">{$lang['qrcode_short']}</option>
+                                            <option value="1">{$lang['qrcode_forever']}</option>
+                                        </select>
+                                        </dd>
+                                    </li>
+                                    <li>
+                                        <h4>{$lang['qrcode_valid_time']}：</h4>
+                                        <dd style="width:auto">
+                                        <input type="text" name="data[expire_seconds]" class="text" placeholder="默认1800秒,永久二维码不用设置" /></dd>
+                                        <dd style="width:auto">
+                                            <div class="pull-left explain">
+                                                <span>{$lang['qrcode_help1']}</span>
+                                            </div>
+                                        </dd>
+                                    </li>
+                                    <li>
+                                        <h4>{$lang['qrcode_function']}：</h4><input type="text" name="data[function]" class="text" />
+                                    </li> 
+                                    <li>
+                                        <h4>{$lang['qrcode_scene_value']}：</h4>
+                                        <dd style="width:auto"><input type="text" name="data[scene_id]" class="text" placeholder="从小到大依次填写非0整型数值" />
+                                        <dd style="width:auto">
+                                            <div class="pull-left explain">
+                                                <span>{$lang['qrcode_help2']}</span>
+                                            </div>
+                                        </dd>
+                                    </li> 
+                                    <li>
+                                        <h4>{$lang['wechat_status']}：</h4>
+                                        <div class="checkbox_items" style="line-height:30px">
+                                            <div class="checkbox_item">
+                                                <input type="radio" name="data[status]" class="ui-radio event_zhuangtai" id="value_118_0" value="1" checked="">
+                                                <label for="value_118_0" class="ui-radio-label active">{$lang['enabled']}</label>
+                                            </div>
+                                            <div class="checkbox_item">
+                                                <input type="radio" name="data[status]" class="ui-radio event_zhuangtai" id="value_118_1" value="0">
+                                                <label for="value_118_1" class="ui-radio-label ">{$lang['disabled']}</label>
+                                            </div>
+                                        </div>
+                                    </li> 
+                                    <li>
+                                        <h4>{$lang['sort_order']}：</h4>
+                                        <dd style="width:auto"><input type="text" name="data[sort]" class="text" /></dd>
+                                    </li>
+                                    <li>
+                                        <h4>&nbsp;</h4>
+                                        <input type="submit" value="{$lang['button_submit']}" class="button" />
+                                        <input type="reset" value="{$lang['button_reset']}" class="button button_reset" />
+                                    </li> 
+                                </ul>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script type="text/javascript">
+$(function(){
+    $(".form-horizontal").submit(function(){
+        var ajax_data = $(this).serialize();
+        $.post("{url('qrcode_edit')}", ajax_data, function(data){
+            if(data.status > 0){
+                layer.msg(data.msg);
+                window.location = "{url('qrcodelist')}";
+            }
+            else{
+                layer.msg(data.msg);
+                return false;
+            }
+        }, 'json');
+    });
+})
+</script>
+{include file="seller_pagefooter_copyright"}
+{include file="seller_pagefooter"}
+</body>
+</html>

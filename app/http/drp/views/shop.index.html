@@ -1,0 +1,126 @@
+{include file="page_header"}
+<div class="con">
+		<section class="user-shop-maxbox">
+			<header class="shop-user-max">
+				<div class="user-shop-img-box"><img src="{$shop_info.shop_img}"></div>
+				<div class="user-shop-left-img user-shop-cont padding-allr">
+					<div class="user-head-img-box-2 "><img src="{$shop_info.headimgurl}"></div>
+				</div>
+				<h4 class="user-shop-name color-whie">{$shop_info.shop_name}</h4>
+<!--                                {if $shop_info.url}
+				<a href="{$shop_info.url}">
+					<label class="user-shop-shoucang p-a color-whie">分销中心</label>
+				</a>
+                                {/if}-->
+				<a href="javascript:;">
+					   <div class="user-shop-box2 p-a user-shop-fx"><i class="iconfont icon-fenxiang1"></i></div>
+				</a>
+			</header>
+			<div class="user-shop-nav-box b-color-f">
+				<ul class="dis-box user-shop-nav user-shop-left-img1">
+					<li class="box-flex">
+                        <a href="{url('drp/shop/index',array('id'=>$shop_info['id'],'status'=>1,'u'=>$shop_info['user_id']))}">
+                            {if $shop_info.sum>0 }
+							<h4>{$shop_info.sum}</h4>
+                            {else}
+                            <h4>0</h4>
+                            {/if}
+							<p>全部商品</p>
+						</a>
+					</li>
+					<li class="box-flex">
+						<a href="{url('drp/shop/index',array('id'=>$shop_info['id'],'status'=>0,'u'=>$shop_info['user_id']))}">
+                            {if $shop_info.new>0 }
+							<h4>{$shop_info.new}</h4>
+                            {else}
+                            <h4>0</h4>
+                            {/if}
+							<p>上新</p>
+						</a>
+					</li>
+					<li class="box-flex">
+						<a href="{url('drp/shop/index',array('id'=>$shop_info['id'],'status'=>2,'u'=>$shop_info['user_id']))}">
+                            {if $shop_info.promote>0 }
+							<h4>{$shop_info.promote}</h4>
+                            {else}
+                            <h4>0</h4>
+                            {/if}
+							<p>促销</p>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</section>
+                <section class="product-list j-product-list product-list-medium m-top06 n-user-shop" data="1">
+                    {if $status==1}
+                      <div class="padding-all b-color-f user-shop-tit2">全部产品</div>
+                     {elseif $status==0}
+                     <div class="padding-all b-color-f user-shop-tit2">上新产品</div>
+                     {elseif $status==2}
+                     <div class="padding-all b-color-f user-shop-tit2">促销产品</div>
+                    {/if}
+			<ul class="j-prolist-ul">
+      <script id="j-product" type="text/html">
+      <%if totalPage > 0%>
+          <%each list as goods%>
+				<li>
+					<div class="product-div">
+						<a class="product-div-link" href="<%goods.url%>"></a>
+						<img class="product-list-img" src="<%goods.goods_thumb%>" />
+						<div class="product-text">
+							<a href="<%goods.url%>"><h4><%goods.goods_name%></h4></a>
+							<p class="dis-box p-t-remark"><span class="box-flex">库存:<%goods.goods_number%><%goods.measure_unit%></span><span class="box-flex">销量:<%goods.sales_volume%><%goods.measure_unit%></span></p>
+							<p><span class="p-price t-first ">
+                  <%if goods.promote_price%>
+                     <%#goods.promote_price%>
+                  <%else%>
+                     <%#goods.shop_price%>
+                  <%/if%>
+              </p>
+              <p style="display:none" class="drp-prolist-per">佣金比例：<span><%goods.dis_commission%>%</span></p>
+							<a href="javascript:void(0)" onclick="addToCart(<%goods.goods_id%>, 0)" class="icon-flow-cart fr j-goods-attr"><i class="iconfont icon-gouwuche"></i></a>
+						</div>
+					</div>
+				</li>
+          <%/each%>
+        <%else%>
+    <div class="no-div-message">
+        <i class="iconfont icon-biaoqingleiben"></i>
+        <p>亲，此处没有内容～！</p>
+    </div>
+    <%/if%>
+      </script>
+			</ul>
+
+		</section>
+    <div class="shopping-prompt ts-2">
+      <img src="{elixir('img/fengxiang.png')}" />
+    </div>
+    <!--快捷导航-->
+   {include file="no_search_nav"}
+                <li>
+                     <a href="{url('drp/user/index')}">
+                         <i class="iconfont icon-fenxiao"></i>
+                         <p>{$custom}中心</p>
+                     </a>
+                </li>
+    {include file="float_nav_footer"}
+</div>
+<script type="text/javascript">
+$(function(){
+  var url = "{url('drp/shop/index', array('id'=>$shop_info['id']))}";
+  $('.j-prolist-ul').infinite({url: url, template:'j-product',params:'status={$status}&cat_id={$shop_info[goods_id]}',offset:300});
+})
+
+$(function($) {
+    $(".ect-index-share").click(function(){
+      $(".share-div").addClass("active");
+    });
+});
+$(".share-div").click(function(){
+  $(".share-div").removeClass("active");
+})
+</script>
+	</body>
+
+</html>

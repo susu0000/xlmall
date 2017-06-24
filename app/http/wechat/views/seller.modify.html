@@ -1,0 +1,108 @@
+{include file="seller_pageheader"}
+
+{include file="seller_nave_header"}
+
+<div class="ecsc-layout">
+    <div class="site wrapper">
+		{include file="seller_menu_left"}
+
+		<div class="ecsc-layout-right">
+			<div class="main-content" id="mainContent">
+			{include file="seller_nave_header_title"}
+				<div class="wrapper-right of" style="background:#fff">
+			        <div class="tabmenu">
+						<ul class="tab pngFix">
+							<li class="active"><a href="javascript:;">{$postion['ur_here']}</a></li>							
+						</ul>
+			        </div>
+                    <div class="point-out">
+                        <div class="alert-info"><h4>使用说明：</h4>
+                        <ul>
+			            	<li>一、配置前先需要申请一个微信服务号，并且通过微信认证。</li>
+			            	<li>二、网站域名 需要通过ICP备案并正确解析到空间服务器，临时域名与IP地址无法配置。</li>
+			            	<li>三，登录微信公众号平台 https://mp.weixin.qq.com/，获取且依次填写好 公众号名称，公众号原始ID，Appid，Appsecret，token值。 </li>
+			            	<li>* 自定义Token值，必须为英文或数字（长度为3-32字符），如 weixintoken，并保持后台与公众号平台填写的一致 </li>
+			            	<li>* 复制接口地址，填写到微信公众号平台 开发=> 基本配置，服务器配置下的 URL地址。（仅支持80端口） </li>
+                        </ul></div>
+                    </div>
+                    <form method="post" action="{url('modify')}" class="form-horizontal" role="form">
+			    	<div class="wrapper-content">
+						<div class="account-setting clearfix">
+							<ul class="set">
+								<li>
+									<h4>{$lang['wechat_name']}</h4>
+			                        <input type="text" value="{$data['name']}" name="data[name]"  class="text">
+			                        <div class="explain">
+			                        	<p>{$lang['wechat_help1']}</p>
+			                        </div>
+								</li>
+								<li>
+									<h4>{$lang['wechat_id']}</h4>
+			                        <input type="text" value="{$data['orgid']}" name="data[orgid]" class="text">
+			                        <div class="explain">
+			                        	<p>{$lang['wechat_help2']}</p>
+			                        </div>
+								</li>
+								<li>
+									<h4>{$lang['appid']}</h4>
+			                        <input type="text" value="{$data['appid']}"  name="data[appid]" class="text">
+			                        <div class="explain">
+			                        	<p>{$lang['wechat_help4']}</p>
+			                        </div>
+								</li>
+								<li>
+									<h4>{$lang['appsecret']}</h4>
+			                        <input type="text" value="{$data['appsecret']}" name="data[appsecret]" class="text">
+			                        <div class="explain">
+			                        	<p>{$lang['wechat_help4']}</p>
+			                        </div>
+								</li>
+								<li>
+									<h4>{$lang['token']}</h4>
+			                        <input type="text" value="{$data['token']}" name="data[token]" class="text">
+			                        <div class="explain">
+			                        	<p>{$lang['wechat_help3']}</p>
+			                        </div>
+								</li>
+								<li>
+									<h4>{$lang['aeskey']}</h4>
+			                        <input type="text" value="{$data['encodingaeskey']}" name="data[encodingaeskey]" class="text">
+			                        <div class="explain">
+			                        	<p>(选填) {$lang['wechat_help7']}</p>
+			                        </div>
+								</li>
+								<li>
+									<h4>{$lang['wechat_status']}</h4>
+			                        <div class="checkbox_items">
+			                            <div class="checkbox_item">
+						                    <input type="radio" name="data[status]" class="ui-radio event_zhuangtai" id="value_118_0" value="1" {if $data['status'] == 1}checked{/if}>
+						                    <label for="value_118_0" class="ui-radio-label active">{$lang['wechat_open']}</label>
+						                </div>
+						                <div class="checkbox_item">
+						                    <input type="radio" name="data[status]" class="ui-radio event_zhuangtai" id="value_118_1" value="0" {if $data['status'] == 0}checked{/if}>
+						                    <label for="value_118_1" class="ui-radio-label ">{$lang['wechat_close']}</label>
+						                </div>
+			                        </div>
+								</li>
+								<li>
+									<h4>接口地址</h4>
+									<span style="line-height:30px;height:30px;background-color:#E6E6E6;">{$data.url}</span>
+								</li>
+	                            <li>
+									<h4>&nbsp;</h4>
+			                        <input type="submit" name="submit" value="保存" class="button">
+								</li>
+							</ul>
+						</div>
+			    	</div>
+			    	</form>
+			    </div>
+			</div>
+		</div>
+
+    </div>
+</div>
+{include file="seller_pagefooter_copyright"}
+{include file="seller_pagefooter"}
+</body>
+</html>
